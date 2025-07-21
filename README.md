@@ -46,27 +46,26 @@ O sistema, operado via **interface de linha de comando (CLI)**, oferece as segui
 
 O projeto segue uma estrutura de pacotes organizada para separar as responsabilidades:
 loja/
-├── Main.java               # Ponto de entrada do sistema
-├── model/
-│   ├── cliente/
-│   │   ├── Cliente.java        # Classe base abstrata para clientes
-│   │   ├── PessoaFisica.java   # Subclasse de Cliente
-│   │   └── PessoaJuridica.java # Subclasse de Cliente
-│   ├── nota/
-│   │   ├── Nota.java           # Representa a nota de compra
-│   │   └── ItemNota.java       # Representa um item dentro da nota
-│   └── produto/
-│       ├── Produto.java        # Classe base abstrata para produtos
-│       ├── ProdutoDigital.java # Subclasse de Produto
-│       ├── ProdutoFisico.java  # Subclasse de Produto
-│       └── ProdutoPerecivel.java # Subclasse de ProdutoFisico
-├── service/                # Pacote para classes de serviço/gerenciadores
-│   ├── GerenciadorDeClientes.java # (Sugestão: para gerenciar a coleção de clientes)
-│   └── GerenciadorDeProdutos.java # Classe para gerenciar a coleção de produtos
-└── ui/
-├── ConsoleMenu.java    # Lógica do menu da interface de linha de comando
-└── InputUtils.java     # Utilitários para entrada de dados do usuário
-
+├── Main.java               # Ponto de entrada do sistema.
+├── model/                  # Contém as classes que representam os dados e a lógica de negócio principal.
+│   ├── cliente/            # Classes relacionadas a clientes.
+│   │   ├── Cliente.java        # Classe base abstrata para todos os tipos de clientes.
+│   │   ├── PessoaFisica.java   # Subclasse para clientes pessoa física.
+│   │   └── PessoaJuridica.java # Subclasse para clientes pessoa jurídica.
+│   ├── nota/               # Classes relacionadas a notas de compra.
+│   │   ├── Nota.java           # Representa a nota fiscal de compra.
+│   │   └── ItemNota.java       # Representa um item (produto + quantidade) dentro de uma nota.
+│   └── produto/            # Classes relacionadas a produtos.
+│       ├── Produto.java        # Classe base abstrata para todos os tipos de produtos.
+│       ├── ProdutoDigital.java # Subclasse para produtos digitais.
+│       ├── ProdutoFisico.java  # Subclasse para produtos físicos.
+│       └── ProdutoPerecivel.java # Subclasse para produtos perecíveis (provavelmente estende ProdutoFisico).
+├── service/                # Contém a lógica de negócio que orquestra as operações, atuando como "gerenciadores" ou "repositórios".
+│   ├── GerenciadorDeClientes.java # (Sugestão: para gerenciar a coleção de clientes, como adicionar, buscar, listar, etc.)
+│   └── GerenciadorDeProdutos.java # Classe para gerenciar a coleção de produtos.
+└── ui/                     # Contém as classes responsáveis pela interação com o usuário (Interface de Usuário).
+    ├── ConsoleMenu.java    # Lógica para exibir menus e interagir com o usuário via console.
+    └── InputUtils.java     # Utilitários para facilitar a leitura de diferentes tipos de entrada do usuário.
 ## 🚀 Como Executar o Projeto
 
 1.  **Clone o Repositório:**
