@@ -11,21 +11,8 @@ public class Main {
 
         int escolha;
         do {
-            // Exibe as opções do menu principal.
-            System.out.println("\n--- Menu Principal ---");
-            System.out.println("1. Cadastrar Produto");
-            System.out.println("2. Alterar Produto");
-            System.out.println("3. Cadastrar Cliente");
-            System.out.println("4. Alterar Cliente");
-            System.out.println("5. Criar Nota de Compra");
-            System.out.println("6. Listar Produtos");
-            System.out.println("7. Listar Clientes");
-            System.out.println("8. Listar Notas Emitidas"); // Adicionado a opção de listar notas
-            System.out.println("0. Sair");
             
-            // Lê a escolha do usuário usando InputUtils.
-            escolha = InputUtils.lerInt("Digite sua opção: "); 
-
+            escolha = menu.mostraMenu()
             // Direciona para o método apropriado no ConsoleMenu com base na escolha.
             switch (escolha) {
                 case 1: menu.cadastrarProduto(); break;
