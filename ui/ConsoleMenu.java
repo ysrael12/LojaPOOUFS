@@ -8,23 +8,40 @@ import java.time.LocalDate;
 import produto.*;
 
 
+
 public class ConsoleMenu {
 	
-	  public ConsoleMenu() {
-	       
-	    }
+	public ConsoleMenu() {}
+
+	public int mostraMenu(){
+            System.out.println("\n--- Menu Principal ---");
+            System.out.println("1. Cadastrar Produto");
+            System.out.println("2. Alterar Produto");
+            System.out.println("3. Cadastrar Cliente");
+            System.out.println("4. Alterar Cliente");
+            System.out.println("5. Criar Nota de Compra");
+            System.out.println("6. Listar Produtos");
+            System.out.println("7. Listar Clientes");
+            System.out.println("8. Listar Notas Emitidas"); 
+            System.out.println("0. Sair");
+            
+            // Lê a escolha do usuário usando InputUtils.
+            int escolha = InputUtils.lerInt("Digite sua opção: "); 
+	    return escolha;
+	}
+	
 	    
 	public boolean cadastrarProduto () {
-        System.out.println("\n--- Cadastro de Produto ---");
-        System.out.println("Qual tipo de produto deseja cadastrar?");
-        System.out.println("1- Físico");
-        System.out.println("2- Digital");
-        System.out.println("3- Perecível");
-        int tipo = InputUtils.lerInt("Escolha o tipo: ");
-
-        String nome = InputUtils.lerString("Coloque o nome: "); 
-        double precoBase = InputUtils.lerDouble("Coloque o preço base: R$"); 
-        int estoque = InputUtils.lerInt("Coloque o estoque inicial: "); 
+	        System.out.println("\n--- Cadastro de Produto ---");
+	        System.out.println("Qual tipo de produto deseja cadastrar?");
+	        System.out.println("1- Físico");
+	        System.out.println("2- Digital");
+	        System.out.println("3- Perecível");
+	        int tipo = InputUtils.lerInt("Escolha o tipo: ");
+	
+	        String nome = InputUtils.lerString("Coloque o nome: "); 
+	        double precoBase = InputUtils.lerDouble("Coloque o preço base: R$"); 
+	        int estoque = InputUtils.lerInt("Coloque o estoque inicial: "); 
 
         try {
             switch (tipo) {
