@@ -8,14 +8,6 @@ public class PessoaJuridica extends Cliente{
 	
 	public PessoaJuridica(String nome, String endereço, String numeroDeTelefone, String cnpj, String razaoSocial, String nomeFantasia) {
 		super(nome, endereço, numeroDeTelefone);
-		// Validação básica para CNPJ e razão social
-        if (cnpj == null || cnpj.trim().isEmpty()) {
-            throw new IllegalArgumentException("CNPJ não pode ser vazio.");
-        }
-        if (razaoSocial == null || razaoSocial.trim().isEmpty()) {
-            throw new IllegalArgumentException("Razão Social não pode ser vazia.");
-        }
-
         this.cnpj = cnpj;
         this.razaoSocial = razaoSocial;
         this.nomeFantasia = nomeFantasia;
@@ -26,9 +18,6 @@ public class PessoaJuridica extends Cliente{
     }
 
     public void setCnpj(String cnpj) {
-        if (cnpj == null || cnpj.trim().isEmpty()) {
-            throw new IllegalArgumentException("CNPJ não pode ser vazio.");
-        }
         this.cnpj = cnpj;
     }
 
@@ -37,9 +26,6 @@ public class PessoaJuridica extends Cliente{
     }
 
     public void setRazaoSocial(String razaoSocial) {
-        if (razaoSocial == null || razaoSocial.trim().isEmpty()) {
-            throw new IllegalArgumentException("Razão Social não pode ser vazia.");
-        }
         this.razaoSocial = razaoSocial;
     }
 

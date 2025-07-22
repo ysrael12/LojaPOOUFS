@@ -11,20 +11,6 @@ public class ProdutoPerecivel extends ProdutoFisico {
                             double pesoKg, String dimensoes, 
                             LocalDate dataValidade, String condicoesArmazenamento) {
         super(nome, precoBase, estoque, pesoKg, dimensoes);
-        
-        if (dataValidade == null) {
-            System.out.println("Data de validade não pode ser nula no cadastro.");
-            throw new IllegalArgumentException("Data de validade inválida.");
-        }
-        if (dataValidade.isBefore(LocalDate.now())) {
-            System.out.println("Produto já vencido na data de cadastro.");
-            throw new IllegalArgumentException("Produto já vencido.");
-        }
-        if (condicoesArmazenamento == null || condicoesArmazenamento.trim().isEmpty()) {
-            System.out.println("Condições de armazenamento não podem ser vazias.");
-            throw new IllegalArgumentException("Condições de armazenamento inválidas.");
-        }
-
         this.dataValidade = dataValidade;
         this.condicoesArmazenamento = condicoesArmazenamento;
     }
@@ -35,12 +21,6 @@ public class ProdutoPerecivel extends ProdutoFisico {
     }
 
     public void setDataValidade(LocalDate dataValidade) {
-        if (dataValidade == null) { // Ensure null cannot be set
-            throw new IllegalArgumentException("Data de validade não pode ser nula.");
-        }
-        if (dataValidade.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Nova data de validade já vencida.");
-        }
         this.dataValidade = dataValidade;
     }
 
@@ -49,9 +29,6 @@ public class ProdutoPerecivel extends ProdutoFisico {
     }
 
     public void setCondicoesArmazenamento(String condicoesArmazenamento) {
-        if (condicoesArmazenamento == null || condicoesArmazenamento.trim().isEmpty()) {
-            throw new IllegalArgumentException("Condições de armazenamento não podem ser vazias.");
-        }
         this.condicoesArmazenamento = condicoesArmazenamento;
     }
     

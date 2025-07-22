@@ -8,15 +8,6 @@ public class PessoaFisica extends Cliente{
 	
 	public PessoaFisica(String nome, String endereço, String numeroDeTelefone, String cpf, LocalDate dataDeNascimento) {
 		super(nome, endereço, numeroDeTelefone);
-		
-		// Validação básica para CPF e data de nascimento
-        if (cpf == null || cpf.trim().isEmpty()) {
-            throw new IllegalArgumentException("CPF não pode ser vazio.");
-        }
-        if (dataDeNascimento == null) {
-            throw new IllegalArgumentException("Data de nascimento não pode ser nula.");
-        }
-        
 		this.cpf = cpf;
 		this.dataDeNascimento = dataDeNascimento;
 	}
@@ -27,9 +18,6 @@ public class PessoaFisica extends Cliente{
     }
 
     public void setCpf(String cpf) {
-        if (cpf == null || cpf.trim().isEmpty()) {
-            throw new IllegalArgumentException("CPF não pode ser vazio.");
-        }
         this.cpf = cpf;
     }
 
@@ -38,9 +26,6 @@ public class PessoaFisica extends Cliente{
     }
 
     public void setDataNascimento(LocalDate dataDeNascimento) {
-        if (dataDeNascimento == null) {
-            throw new IllegalArgumentException("Data de nascimento não pode ser nula.");
-        }
         this.dataDeNascimento = dataDeNascimento;
     }
 	

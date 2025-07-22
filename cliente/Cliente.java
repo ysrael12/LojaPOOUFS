@@ -11,16 +11,6 @@ public abstract class Cliente {
     private static Cliente[] clientesCadastrados = new Cliente[0];
 
     public Cliente(String nome, String endereco, String numeroDeTelefone){
-        if (nome == null || nome.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nome do cliente não pode ser vazio.");
-        }
-        if (endereco == null || endereco.trim().isEmpty()) {
-            throw new IllegalArgumentException("Endereço do cliente não pode ser vazio.");
-        }
-        if (numeroDeTelefone == null || numeroDeTelefone.trim().isEmpty()) {
-            throw new IllegalArgumentException("Telefone do cliente não pode ser vazio.");
-        }
-
         this.id = UUID.randomUUID();
         this.nome = nome; 
         this.endereco = endereco; 
@@ -87,21 +77,12 @@ public abstract class Cliente {
     }
 
     public void setNome(String nome) {
-        if (nome == null || nome.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nome não pode ser vazio.");
-        }
         this.nome = nome; 
     }
     public void setEndereco(String endereco) {
-        if (endereco == null || endereco.trim().isEmpty()) {
-            throw new IllegalArgumentException("Endereço não pode ser vazio.");
-        }
         this.endereco = endereco; 
     }
     public void setNumeroDeTelefone(String numeroDeTelefone) {
-        if (numeroDeTelefone == null || numeroDeTelefone.trim().isEmpty()) {
-            throw new IllegalArgumentException("Telefone não pode ser vazio.");
-        }
         this.numeroDeTelefone = numeroDeTelefone;
     }
     public UUID getId(){

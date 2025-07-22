@@ -6,17 +6,6 @@ public class ProdutoFisico extends Produto{
 	
 	public ProdutoFisico(String nome, double precoBase, int estoque, double pesoKg, String dimensoes) {
         super(nome, precoBase, estoque); // Chama o construtor da superclasse Produto
-        
-        // Validações específicas
-        if (pesoKg <= 0) {
-            System.out.println("Peso não pode ser nulo ou não positivo.");
-            throw new IllegalArgumentException("Peso inválido.");
-        }
-        if (dimensoes == null || dimensoes.trim().isEmpty()) {
-            System.out.println("Dimensões não podem ser vazias.");
-            throw new IllegalArgumentException("Dimensões inválidas.");
-        }
-        
         this.pesoKg = pesoKg;
         this.dimensoes = dimensoes;
     }

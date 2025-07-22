@@ -276,6 +276,7 @@ public class ConsoleMenu {
 
 	            try {
 	                novaNota.adicionarProduto(produtoSelecionado, quantidade); 
+	                produtoSelecionado.setEstoque( produtoSelecionado.getEstoque() - quantidade);
 	                System.out.println("Item adicionado com sucesso.");
 	            } catch (IllegalArgumentException e) {
 	                System.out.println("Erro ao adicionar item: " + e.getMessage());

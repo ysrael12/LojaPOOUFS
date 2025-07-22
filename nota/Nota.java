@@ -1,7 +1,6 @@
 package nota;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import produto.Produto;
 import cliente.Cliente;
@@ -13,7 +12,6 @@ public class Nota{
 	private String id;
 	private LocalDate data;
 	
-	 // FIX: Initialize the static array here
 	private static Nota[] notasEmitidas = new Nota[0]; 
 	private static int ultimoId = 0;
 

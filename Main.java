@@ -2,34 +2,12 @@ import ui.ConsoleMenu;
 import ui.InputUtils; 
 
 
-import produto.ProdutoFisico; 
-import cliente.PessoaFisica;
-import java.time.LocalDate;
 
 public class Main {
 
     public static void main(String[] args) {
        
         ConsoleMenu menu = new ConsoleMenu(); 
-
-      
-        try {
-          
-            new ProdutoFisico("O Senhor dos Anéis (Livro)", 50.00, 10, 0.8, "23x16x4 cm");
-            new ProdutoFisico("Mouse Gamer HyperX", 150.00, 25, 0.2, "10x5x3 cm");
-            new ProdutoFisico("Teclado Mecânico Redragon", 350.00, 15, 1.0, "45x15x3 cm");
-            
-            
-            new PessoaFisica("Ana Paula Souza", "Rua das Flores, 100", "99123-4567", "111.222.333-44", LocalDate.of(1990, 1, 15));
-            new PessoaFisica("Carlos Eduardo Lima", "Av. Brasil, 50", "99876-5432", "555.666.777-88", LocalDate.of(1985, 7, 20));
-
-            new cliente.PessoaJuridica("Padaria Sabor do Pão Ltda.", "Rua do Trigo, 123", "3210-9876", "00.123.456/0001-78", "Padaria Sabor do Pão LTDA", "Sabor do Pão");
-
-
-        } catch (IllegalArgumentException e) {
-            System.err.println("Erro ao popular dados iniciais: " + e.getMessage());
-        }
-        // -----------------------------------------------------------------------
 
         int escolha;
         do {
