@@ -1,149 +1,294 @@
 package ui;
-import java.util.Scanner;
 import nota.Nota;
 import produto.Produto;
 import cliente.Cliente;
+import cliente.PessoaFisica;
+import cliente.PessoaJuridica;
+import java.time.LocalDate;
+import produto.*;
+
 
 public class ConsoleMenu {
 	
-private Scanner in;
-
-	public ConsoleMenu(Scanner in) {
-		this.in = in;
-	}
-	
+	  public ConsoleMenu() {
+	       
+	    }
+	    
 	public boolean cadastrarProduto () {
-		System.out.println("Coloque o nome: ");
-		String nome = this.in.nextLine();
-		
-		System.out.println("Coloque o preco: ");
-		int preco =  Integer.parseInt((this.in.nextLine()).replaceAll(" ",""));
-		
-		System.out.println("Coloque o estoque: ");
-		int estoque = Integer.parseInt((this.in.nextLine()).replaceAll(" ",""));
-		
-		 if(preco < 0 || estoque < 0 || nome.replaceAll(" ","").equals("")) {
-         System.out.println("Produto invalido.");
-			return false;
-			}
-			Produto p = new Produto (nome, preco, estoque);
-			return true;
-	}
+        System.out.println("\n--- Cadastro de Produto ---");
+        System.out.println("Qual tipo de produto deseja cadastrar?");
+        System.out.println("1- Físico");
+        System.out.println("2- Digital");
+        System.out.println("3- Perecível");
+        int tipo = InputUtils.lerInt("Escolha o tipo: ");
+
+        String nome = InputUtils.lerString("Coloque o nome: "); 
+        double precoBase = InputUtils.lerDouble("Coloque o preço base: R$"); 
+        int estoque = InputUtils.lerInt("Coloque o estoque inicial: "); 
+
+        try {
+            switch (tipo) {
+                case 1: 
+                    double peso = InputUtils.lerDouble("Coloque o peso (kg): ");
+                    String dimensoes = InputUtils.lerString("Coloque as dimensões (ex: 10x20x5 cm): ");
+                    new ProdutoFisico(nome, precoBase, estoque, peso, dimensoes);
+                    break;
+                case 2:
+                    String urlDownload = InputUtils.lerString("Coloque a URL de download: ");
+                    long tamanhoArquivoMB = InputUtils.lerInt("Coloque o tamanho do arquivo (MB): ");
+                    new ProdutoDigital(nome, precoBase, estoque, urlDownload, tamanhoArquivoMB);
+                    break;
+                case 3:
+                    double pesoPerecivel = InputUtils.lerDouble("Coloque o peso (kg): ");
+                    String dimensoesPerecivel = InputUtils.lerString("Coloque as dimensões (ex: 10x20x5 cm): ");
+                    LocalDate dataValidade = InputUtils.lerData("Coloque a data de validade");
+                    String condicoesArmazenamento = InputUtils.lerString("Coloque as condições de armazenamento: ");
+                    new ProdutoPerecivel(nome, precoBase, estoque, pesoPerecivel, dimensoesPerecivel, dataValidade, condicoesArmazenamento);
+                    break;
+                default:
+                    System.out.println("Opção de tipo de produto inválida.");
+                    return false;
+            }
+            System.out.println("Produto cadastrado com sucesso!");
+            return true;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro ao cadastrar produto: " + e.getMessage());
+            return false;
+        }
+    }
 	
-	public boolean alterarProduto (Produto produto){
-		System.out.println("Que alteracao deseja?");
-		System.out.println("1- Nome\n2- Preco\n3- Estoque");
-		int escolha = Integer.parseInt((this.in.nextLine()).replaceAll(" ",""));
-		
-		if (escolha == 1){
-		System.out.println("Coloque o novo nome: ");
-		String nome = this.in.nextLine();
-		produto.setNome(nome);
-		return true;
-		} 
-
-		else if(escolha == 2){
-		System.out.println("Coloque o novo preco: ");
-		int preco =  Integer.parseInt((this.in.nextLine()).replaceAll(" ",""));
-		produto.setPrecoBase(preco);
-		return true;
-		}
-
-		else if(escolha == 3){
-		System.out.println("Coloque o novo estoque: ");
-		int estoque =  Integer.parseInt((this.in.nextLine()).replaceAll(" ",""));
-		produto.setEstoque(estoque);
-		return true;
-		}	
-
-		else {
-			System.out.println("Erro de alteracao");
-			return false;
-		}
-	}
 	
+	
+	public boolean alterarProduto (){ 
+        System.out.println("\n--- Alterar Produto ---");
+        int codigoProduto = InputUtils.lerInt("Digite o código do produto que deseja alterar: "); 
+        Produto produto = Produto.getCodigoProduto(codigoProduto); 
+
+        if (produto == null) {
+            System.out.println("Produto com o código '" + codigoProduto + "' não encontrado.");
+            return false;
+        }
+
+        System.out.println("Produto selecionado: " + produto.getNome());
+        System.out.println("Que alteração deseja?");
+        System.out.println("1- Nome\n2- Preço Base\n3- Estoque");
+        int escolha = InputUtils.lerInt("Escolha uma opção: "); 
+
+        try {
+            if (escolha == 1){
+                String nome = InputUtils.lerString("Coloque o novo nome: "); 
+                produto.setNome(nome);
+                System.out.println("Nome do produto alterado com sucesso.");
+                return true;
+            } else if(escolha == 2){
+                double preco = InputUtils.lerDouble("Coloque o novo preço base: R$"); 
+                produto.setPrecoBase(preco); 
+                System.out.println("Preço do produto alterado com sucesso.");
+                return true;
+            } else if(escolha == 3){
+                int estoque = InputUtils.lerInt("Coloque o novo estoque: "); // CHAMA InputUtils
+                produto.setEstoque(estoque);
+                System.out.println("Estoque do produto alterado com sucesso.");
+                return true;
+            } else {
+                System.out.println("Opção inválida.");
+                return false;
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro ao alterar produto: " + e.getMessage());
+            return false;
+        }
+    }
 	
 	public boolean cadastrarCliente(){
-	
-		System.out.println("Coloque o nome: ");
-		String nome = this.in.nextLine();
-		
-		System.out.println("Coloque o endereco: ");
-		String endereco = this.in.nextLine();
-		
-		System.out.println("Coloque o numero de telefone: ");
-		String numeroDeTelefone = this.in.nextLine();
-		
-		
-		if ((nome.replaceAll(" ", "").equals("")) || (endereco.replaceAll(" ", "").equals("")) || (numeroDeTelefone.replaceAll(" ", "").equals(""))){
-			System.out.println ("Cliente Invalido");
-			return false;
-		}
+        System.out.println("\n--- Cadastro de Cliente ---");
+        System.out.println("Qual tipo de cliente deseja cadastrar?");
+        System.out.println("1- Pessoa Física");
+        System.out.println("2- Pessoa Jurídica");
+        int tipo = InputUtils.lerInt("Escolha o tipo: "); 
 
-		Cliente c = new Cliente (nome, endereco, numeroDeTelefone);
-		return true;
-	}
+        String nome = InputUtils.lerString("Coloque o nome: "); 
+        String endereco = InputUtils.lerString("Coloque o endereco: "); 
+        String numeroDeTelefone = InputUtils.lerString("Coloque o numero de telefone: "); 
+        
+        try {
+            Cliente novoCliente;
+            switch (tipo) {
+                case 1: 
+                    String cpf = InputUtils.lerString("Coloque o CPF: "); 
+                    LocalDate dataNascimento = InputUtils.lerData("Coloque a data de nascimento");
+                    novoCliente = new PessoaFisica(nome, endereco, numeroDeTelefone, cpf, dataNascimento); 
+                    break;
+                case 2:
+                    String cnpj = InputUtils.lerString("Coloque o CNPJ: "); // CHAMA InputUtils
+                    String razaoSocial = InputUtils.lerString("Coloque a Razão Social: "); // CHAMA InputUtils
+                    String nomeFantasia = InputUtils.lerString("Coloque o Nome Fantasia (opcional): "); // CHAMA InputUtils
+                    novoCliente = new PessoaJuridica(nome, endereco, numeroDeTelefone, cnpj, razaoSocial, nomeFantasia); // Cliente também precisa de adicionar estático
+                    break;
+                default:
+                    System.out.println("Opção de tipo de cliente inválida.");
+                    return false;
+            }
+            System.out.println("Cliente cadastrado com sucesso!\nBem Vindo!"+ novoCliente.getNome());
+            return true;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro ao cadastrar cliente: " + e.getMessage());
+            return false;
+        }
+    }
 	
-	public boolean alterarProduto (Cliente cliente){
-		
-		System.out.println("Que alteracao deseja?");
-		System.out.println("1- Nome\n2- Endereco\n3- Numero de telefone");
-		int escolha = Integer.parseInt((this.in.nextLine()).replaceAll(" ",""));
-		
-		if (escolha == 1){
-		System.out.println("Coloque o novo nome: ");
-		String nome = this.in.nextLine();
-		cliente.setNome(nome);
-		return true;
-		}
+	public boolean alterarCliente (){
+        System.out.println("\n--- Alterar Cliente ---");
+        Cliente.listarClientesCadastrados(); // Mostra os clientes para que o usuário possa escolher
+        String idCliente = InputUtils.lerString("Digite o ID do cliente que deseja alterar: ");
+        Cliente cliente = Cliente.getClientePorId(idCliente); // Usa o método estático da classe Cliente
 
-		else if (escolha == 2){
-		System.out.println("Coloque o novo endereco: ");
-		String endereco = this.in.nextLine();
-		cliente.setEndereco(endereco);
-		return true;
-		}
+        if (cliente == null) {
+            System.out.println("Cliente com o ID '" + idCliente + "' não encontrado.");
+            return false;
+        }
+		
+        System.out.println("Cliente selecionado: " + cliente.getNome());
+        System.out.println("Que alteração deseja?");
+        System.out.println("1- Nome\n2- Endereço\n3- Número de telefone");
+        System.out.println("4- Alterar Tipo de Cliente (Pessoa Física <-> Jurídica)"); 
+        int escolha = InputUtils.lerInt("Escolha uma opção: ");
+        
+        try {
+            if (escolha == 1){
+                String nome = InputUtils.lerString("Coloque o novo nome: ");
+                cliente.setNome(nome);
+                System.out.println("Nome do cliente alterado com sucesso.");
+                return true;
+            } else if (escolha == 2){
+                String endereco = InputUtils.lerString("Coloque o novo endereco: ");
+                cliente.setEndereco(endereco);
+                System.out.println("Endereço do cliente alterado com sucesso.");
+                return true;
+            } else if(escolha == 3){
+                String numeroDeTelefone = InputUtils.lerString("Coloque o novo numero de telefone: ");
+                cliente.setNumeroDeTelefone(numeroDeTelefone);
+                System.out.println("Numero de telefone do cliente alterado com sucesso.");
+                return true;
+            } else if (escolha == 4) { // Lógica para alteração de tipo
+                System.out.println("Alterar tipo de cliente para:");
+                System.out.println("1- Pessoa Física");
+                System.out.println("2- Pessoa Jurídica");
+                int novoTipoEscolha = InputUtils.lerInt("Escolha o novo tipo: ");
 
-		else if(escolha == 3){
-		System.out.println("Coloque o novo numero de telefone: ");
-		String numeroDeTelefone = this.in.nextLine();
-		cliente.setNumeroDeTelefone(numeroDeTelefone);
-		return true;
-		}
+                Cliente novoCliente = null;
+                if (cliente instanceof PessoaFisica && novoTipoEscolha == 2) {
+                    System.out.println("Convertendo Pessoa Física para Jurídica...");
+                    String cnpj = InputUtils.lerString("Coloque o CNPJ: ");
+                    String razaoSocial = InputUtils.lerString("Coloque a Razão Social: ");
+                    String nomeFantasia = InputUtils.lerString("Coloque o Nome Fantasia (opcional): ");
+                    // Cria uma nova instância. O construtor adicionará à lista estática.
+                    novoCliente = new PessoaJuridica(cliente.getNome(), cliente.getEndereco(), cliente.getNumeroDeTelefone(), cnpj, razaoSocial, nomeFantasia);
+                    
+                } else if (cliente instanceof PessoaJuridica && novoTipoEscolha == 1) {
+                    System.out.println("Convertendo Pessoa Jurídica para Física...");
+                    String cpf = InputUtils.lerString("Coloque o CPF: ");
+                    LocalDate dataNascimento = InputUtils.lerData("Coloque a data de nascimento");
+                    // Cria uma nova instância. O construtor adicionará à lista estática.
+                    novoCliente = new PessoaFisica(cliente.getNome(), cliente.getEndereco(), cliente.getNumeroDeTelefone(), cpf, dataNascimento);
+                } else {
+                    System.out.println("Alteração de tipo inválida ou sem mudança.");
+                    return false;
+                }
 
-		else {
-			System.out.println("Erro de alteracao");
-			return false;	
-		}
+                if (novoCliente != null) {
+                    // Remove o cliente antigo da lista estática
+                    if (Cliente.removerCliente(cliente)) {
+                       System.out.println("Tipo de cliente alterado com sucesso!");
+                       System.out.println(novoCliente.toString()); // Exibe o novo cliente
+                       return true; 
+                    }
+                    return false; 
+                }
+                return false;
+            } else {
+                System.out.println("Opção inválida.");
+                return false;	
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro ao alterar cliente: " + e.getMessage());
+            return false;
+        }
 	}
 	
-	public void listarNotasEmitidas (Nota[] listaNota) {
+		public void listarNotasEmitidas () { 
+	        Nota.listarTodasNotasEmitidas(); 
+	        }
 		
-		for (int i=0; i < listaNota.length; i++){
-			listaNota[i].exibirNota();
-			System.out.print ("\n");
+
+	
+		public void listarProdutos (){
+			Produto.listarProdutosCadastrados();
 		}
-	}
 		
-	
-	public void listarProdutos (Produto[] listaProduto){
+	    
+		public void listarClientes (){
+	        Cliente.listarClientesCadastrados(); 
+		}
 		
-		for (int i=0; i < listaProduto.length; i++){
-			listaProduto[i].exibirProduto();
-			System.out.print ("\n");
+		public void criarNotaDeCompra() {
+	        System.out.println("\n--- Criar Nova Nota de Compra ---");
+	        Cliente.listarClientesCadastrados(); 
+	        String idCliente = InputUtils.lerString("Digite o ID do cliente para esta nota: ");
+	        Cliente clienteSelecionado = Cliente.getClientePorId(idCliente); 
+
+	        if (clienteSelecionado == null) {
+	            System.out.println("Cliente não encontrado. Operação cancelada.");
+	            return;
+	        }
+
+	        System.out.println("Cliente selecionado: " + clienteSelecionado.getNome());
+	        
+	        Nota novaNota = new Nota(clienteSelecionado);
+	        System.out.println("Nota " + novaNota.getId() + " criada."); 
+
+	        boolean adicionarMaisItens = true;
+	        while (adicionarMaisItens) {
+	            Produto.listarProdutosCadastrados(); 
+	            String codigoProdutoStr = InputUtils.lerString("Digite o código do produto para adicionar (ou '0' para finalizar): ");
+	            
+	            if (codigoProdutoStr.equals("0")) {
+	                adicionarMaisItens = false;
+	                break;
+	            }
+	            
+	            int codigoProduto = -1;
+	            try {
+	                codigoProduto = Integer.parseInt(codigoProdutoStr);
+	            } catch (NumberFormatException e) {
+	                System.out.println("Código do produto inválido. Digite um número.");
+	                continue;
+	            }
+
+	            Produto produtoSelecionado = Produto.getCodigoProduto(codigoProduto); 
+
+	            if (produtoSelecionado == null) {
+	                System.out.println("Produto não encontrado.");
+	                continue;
+	            }
+
+	            int quantidade = InputUtils.lerInt("Digite a quantidade de " + produtoSelecionado.getNome() + ": ");
+
+	            try {
+	                novaNota.adicionarProduto(produtoSelecionado, quantidade); 
+	                System.out.println("Item adicionado com sucesso.");
+	            } catch (IllegalArgumentException e) {
+	                System.out.println("Erro ao adicionar item: " + e.getMessage());
+	            }
+
+	            String continuar = InputUtils.lerString("Adicionar outro item? (s/n): ");
+	            if (!continuar.equalsIgnoreCase("s")) {
+	                adicionarMaisItens = false;
+	            }
+	        novaNota.emitirNota(); 
+	    }
+	        
+	        
 		}
-	}
-	
-	public void listarClientes (Cliente[] listaCliente){
-		for (int i = 0; i < listaCliente.length; i++){
-			listaCliente[i].exibirCliente();
-			System.out.print ("\n");
-		}
-	}
-	
-	public static void main (String[] args) {
-		Scanner sc = new Scanner(System.in);
-		new ConsoleMenu(sc);
-	}
 }
 

@@ -1,12 +1,12 @@
 package cliente;
 
 import java.time.LocalDate;
-import java.util.UUID;
+
 public class PessoaFisica extends Cliente{
 	private String cpf; 
 	private LocalDate dataDeNascimento;
 	
-	public PessoaFisica(UUID UUID, String nome, String endereço, String numeroDeTelefone, String cpf, LocalDate dataDeNascimento) {
+	public PessoaFisica(String nome, String endereço, String numeroDeTelefone, String cpf, LocalDate dataDeNascimento) {
 		super(nome, endereço, numeroDeTelefone);
 		
 		// Validação básica para CPF e data de nascimento

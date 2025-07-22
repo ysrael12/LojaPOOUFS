@@ -25,4 +25,11 @@ public class ItemNota {
         System.out.println("Total: " + this.subtotal);
         System.out.print ("\n");
     }
+    
+    @Override // 
+    public String toString(){
+        return "  " + produto.getNome() + 
+               " (Cód: " + produto.getCodigo() + 
+               ") | Qtd: " + quantidade;
+    }
 }

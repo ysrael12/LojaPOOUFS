@@ -6,8 +6,9 @@ public class Produto{
     protected String nome;
     protected BigDecimal precoBase;
     private int estoque;
-    private static Produto[] produtosCadastrados;
-    private static int codigoCadastrado = 0;
+    
+    private static Produto[] produtosCadastrados = new Produto[0]; 
+    private static int codigoCadastrado = 1;
 
     public Produto(String nome, double precoBase, int estoque) {
         this.nome = nome;
@@ -18,10 +19,12 @@ public class Produto{
     }
 
     private void adicionarProduto() {
-        Produto[] lista = new Produto[produtosCadastrados.length];
-        System.arraycopy(produtosCadastrados, 0, lista, 0, lista.length+1);
-        lista[produtosCadastrados.length] = this;
-        produtosCadastrados = lista;
+        Produto[] novaLista = new Produto[produtosCadastrados.length + 1];
+        // FIX: The last parameter should be produtosCadastrados.length, not novaLista.length
+        System.arraycopy(produtosCadastrados, 0, novaLista, 0, produtosCadastrados.length); 
+        novaLista[produtosCadastrados.length] = this;
+        produtosCadastrados = novaLista;
+        System.out.println("Produto '" + this.nome + "' (Código: " + this.codigo + ") cadastrado.");
     }
 
     public String getCodigo() {
@@ -44,7 +47,7 @@ public class Produto{
         return precoBase;
     }
 
-    public void setPrecoBase(int precoBase) {
+    public void setPrecoBase(double precoBase) {
         if(precoBase < 0) {
             System.out.println("O preco nao pode ser menor que 0.");
             return;
@@ -84,6 +87,17 @@ public class Produto{
     public void exibirProduto() {
         System.out.println("Produto "+this.codigo+": "+this.nome+" "+this.estoque+" R$"+this.precoBase);
     }
-
+    
+    public static void listarProdutosCadastrados() {
+        if (produtosCadastrados.length == 0) {
+            System.out.println("Nenhum produto cadastrado.");
+            return;
+        }
+        System.out.println("\n--- Produtos Cadastrados ---");
+        for (Produto p : produtosCadastrados) {
+            p.exibirProduto(); // Chama o método de exibição polimórfico para cada produto
+        }
+        System.out.println("----------------------------");
+    }
 }
 

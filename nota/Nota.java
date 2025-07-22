@@ -1,6 +1,8 @@
 package nota;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import produto.Produto;
 import cliente.Cliente;
 
@@ -9,15 +11,18 @@ public class Nota{
 	private BigDecimal subtotal;
 	private ItemNota[] listaProdutos;
 	private String id;
-	private static Nota[] notasEmitidas;
-	private static int ultimoId = 0;
 	private LocalDate data;
 	
+	 // FIX: Initialize the static array here
+	private static Nota[] notasEmitidas = new Nota[0]; 
+	private static int ultimoId = 0;
+
 	public Nota(Cliente pessoa) {
 		this.pessoa = pessoa;
 		this.subtotal = new BigDecimal(0f);
 		this.id = Integer.toString(ultimoId++);
 		this.data = LocalDate.now();
+		this.listaProdutos = new ItemNota[0];
 	}
 	
 	public Cliente getPessoa() {
@@ -50,6 +55,7 @@ public class Nota{
 	    System.out.println("Cliente: ");
 	    this.pessoa.exibirCliente();
 	    System.out.println("Data: " + this.data);
+	    System.out.println("ID da nota: "+ this.id);
 	    System.out.println("Produtos:");
 
 	    for (int i = 0; i < listaProdutos.length; i++) {
@@ -59,17 +65,37 @@ public class Nota{
 	    System.out.println("Subtotal: R$ " + subtotal);
 	}
 	
+	
 	public void emitirNota () {
-		Nota [] novaLista = new Nota [notasEmitidas.length + 1];
-		System.arraycopy(notasEmitidas, 0, novaLista, 0, novaLista.length );
-		novaLista[notasEmitidas.length] = this;
-		notasEmitidas = novaLista;
-		System.out.println ("Subtotal: " + this.subtotal);
-		System.out.println("Itens da compra: ");
-		
-        for (int i = 0; i < listaProdutos.length; i++) {
-        	listaProdutos[i].exibirItemNota();
-        }
+		Nota [] novaListaNotas = new Nota [notasEmitidas.length + 1];
+		System.arraycopy(notasEmitidas, 0, novaListaNotas, 0, notasEmitidas.length ); 
+		novaListaNotas[notasEmitidas.length] = this;
+		notasEmitidas = novaListaNotas;
+
+		System.out.println ("\n--- Nota " + this.id + " EMITIDA ---");
+        this.exibirNota(); 
     }
 	
+	
+	public static void listarTodasNotasEmitidas() {
+        if (notasEmitidas.length == 0) {
+            System.out.println("Nenhuma nota emitida.");
+            return;
+        }
+        System.out.println("\n--- Todas as Notas Emitidas ---");
+        System.out.println("Total de Notas: " + notasEmitidas.length);
+        System.out.println("----------------------------------------------");
+        for (Nota n : notasEmitidas) {
+            if (n != null) {
+                n.exibirNota(); 
+                System.out.println("==============================================");
+            }
+        }
+        System.out.println("--- Fim da Lista de Notas Emitidas ---");
+    }
+	
+	@Override
+    public String toString() {
+        return "Nota [ID=" + id + ", Cliente=" + pessoa.getNome() + ", Data=";
+    }
 }

@@ -1,57 +1,123 @@
 package cliente;
+
 import java.util.UUID;
 
+public abstract class Cliente {
+    protected UUID id; 
+    protected String nome; 
+    protected String endereco; 
+    protected String numeroDeTelefone; 
 
-public class Cliente {
-	protected final UUID UUID;
-	protected String nome; 
-	protected String endereco; 
-	protected String numeroDeTelefone; 
-	
-	// Chamar construtor para cadastrar clientes
-	public Cliente(String nome, String endereco, String numeroDeTelefone) {
-		this.UUID = java.util.UUID.randomUUID(); 
-		this.nome = nome; 
-		this.endereco = endereco; 
-		this.numeroDeTelefone = numeroDeTelefone;
-	}
-	
-	// Alteração de Cliente com Setters
-	
-	public void setNome(String nome) {
-		this.nome = nome; 
-	}
-	
-	public void setEndereco(String endereco) {
-		this.endereco = endereco; 
-	}
-	
-	public void setNumeroDeTelefone(String numeroDeTelefone) {
-		this.numeroDeTelefone = numeroDeTelefone;
-	}
-	
-	// Getters, Para encaminhar para nota
-	
-	public UUID getUUID(){
-		return this.UUID;
-	}
-	
-	public String getNome(){
-		return this.nome;
-	}
-	
-	public String getEndereco() {
-		return this.endereco;
-	}
-	
-	public String getNumeroDeTelefone() {
-		return this.numeroDeTelefone;
-	}
-	
+    private static Cliente[] clientesCadastrados = new Cliente[0];
+
+    public Cliente(String nome, String endereco, String numeroDeTelefone){
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome do cliente não pode ser vazio.");
+        }
+        if (endereco == null || endereco.trim().isEmpty()) {
+            throw new IllegalArgumentException("Endereço do cliente não pode ser vazio.");
+        }
+        if (numeroDeTelefone == null || numeroDeTelefone.trim().isEmpty()) {
+            throw new IllegalArgumentException("Telefone do cliente não pode ser vazio.");
+        }
+
+        this.id = UUID.randomUUID();
+        this.nome = nome; 
+        this.endereco = endereco; 
+        this.numeroDeTelefone = numeroDeTelefone;
+        
+        adicionarClienteInterno(this); 
+    }
+    
+    private static void adicionarClienteInterno(Cliente cliente) {
+        Cliente[] novaLista = new Cliente[clientesCadastrados.length + 1];
+        System.arraycopy(clientesCadastrados, 0, novaLista, 0, clientesCadastrados.length);
+        novaLista[clientesCadastrados.length] = cliente;
+        clientesCadastrados = novaLista;
+        System.out.println("Cliente '" + cliente.getNome() + "' (ID: " + cliente.getId() + ") cadastrado.");
+    }
+
+    public static boolean removerCliente(Cliente clienteParaRemover) {
+        if (clienteParaRemover == null) {
+            return false;
+        }
+        int index = -1;
+        for (int i = 0; i < clientesCadastrados.length; i++) {
+            if (clientesCadastrados[i].getId().equals(clienteParaRemover.getId())) {
+                index = i;
+                break;
+            }
+        }
+        if (index != -1) {
+            Cliente[] novaLista = new Cliente[clientesCadastrados.length - 1];
+            System.arraycopy(clientesCadastrados, 0, novaLista, 0, index);
+            System.arraycopy(clientesCadastrados, index + 1, novaLista, index, clientesCadastrados.length - index - 1);
+            clientesCadastrados = novaLista;
+            System.out.println("Cliente '" + clienteParaRemover.getNome() + "' removido da lista.");
+            return true;
+        }
+        return false;
+    }
+
+    public static Cliente getClientePorId(String idString) {
+        try {
+            UUID idBusca = UUID.fromString(idString); 
+            for (Cliente c : clientesCadastrados) {
+                if (c != null && c.getId().equals(idBusca)) {
+                    return c;
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Formato de ID inválido: " + idString);
+        }
+        System.out.println("Cliente com ID '" + idString + "' não encontrado.");
+        return null;
+    }
+
+    public static void listarClientesCadastrados() {
+        if (clientesCadastrados.length == 0) {
+            System.out.println("Nenhum cliente cadastrado.");
+            return;
+        }
+        System.out.println("\n--- Clientes Cadastrados ---");
+        for (Cliente c : clientesCadastrados) {
+            c.exibirCliente(); 
+        }
+        System.out.println("----------------------------");
+    }
+
+    public void setNome(String nome) {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome não pode ser vazio.");
+        }
+        this.nome = nome; 
+    }
+    public void setEndereco(String endereco) {
+        if (endereco == null || endereco.trim().isEmpty()) {
+            throw new IllegalArgumentException("Endereço não pode ser vazio.");
+        }
+        this.endereco = endereco; 
+    }
+    public void setNumeroDeTelefone(String numeroDeTelefone) {
+        if (numeroDeTelefone == null || numeroDeTelefone.trim().isEmpty()) {
+            throw new IllegalArgumentException("Telefone não pode ser vazio.");
+        }
+        this.numeroDeTelefone = numeroDeTelefone;
+    }
+    public UUID getId(){
+        return this.id;
+    }
+    public String getNome(){
+        return this.nome;
+    }
+    public String getEndereco() {
+        return this.endereco;
+    }
+    public String getNumeroDeTelefone() {
+        return this.numeroDeTelefone;
+    }
+
     public void exibirCliente() {
-        System.out.println("Codigo: "+this.UUID);
-        System.out.println("Nome: "+this.nome);
-        System.out.println("Endereco: "+this.endereco);
-        System.out.println("Telefone: "+this.numeroDeTelefone);
+        System.out.println("Cliente ID: " + this.id + " | Nome: " + this.nome + " | Endereço: " + this.endereco + " | Telefone: " + this.numeroDeTelefone);
     }
 }
