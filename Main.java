@@ -12,7 +12,7 @@ public class Main {
         int escolha;
         do {
             
-            escolha = menu.mostraMenu()
+            escolha = menu.mostraMenu();
             // Direciona para o método apropriado no ConsoleMenu com base na escolha.
             switch (escolha) {
                 case 1: menu.cadastrarProduto(); break;
