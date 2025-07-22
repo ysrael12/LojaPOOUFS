@@ -73,7 +73,7 @@ O projeto segue uma estrutura de pacotes organizada para separar as responsabili
     * Certifique-se de ter o **Java Development Kit (JDK) 17 ou superior** instalado em sua máquina.
 3.  **Compile e Execute:**
     * **Via IDE (Eclipse/IntelliJ):** Clique com o botão direito no arquivo `Main.java` e selecione "Run As" > "Java Application".
-    * **Via Terminal (após compilar, a partir da raiz do projeto):**
+    * **Via Terminal:**
 
         
         ```
