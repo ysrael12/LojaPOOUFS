@@ -80,11 +80,7 @@ loja/
     * **Via IDE (Eclipse/IntelliJ):** Clique com o botão direito no arquivo `Main.java` e selecione "Run As" > "Java Application".
     * **Via Terminal (após compilar, a partir da raiz do projeto):**
         ```bash
-        # Compile os arquivos .java (assumindo que 'src' é a pasta raiz dos seus pacotes)
-        javac -d bin src/loja/**/*.java src/cliente/**/*.java src/produto/**/*.java
-
-        # Execute a aplicação (substitua 'loja.Main' pelo caminho completo da sua classe Main)
-        java -cp bin loja.Main
+        CORRIGIR
         ```
     * **Nota:** Se você configurou pacotes diferentes dos mencionados (`loja`, `cliente`, `produto`), ajuste os comandos `javac` e `java` de acordo.
 
