@@ -8,11 +8,9 @@ import java.time.LocalDate;
 import produto.*;
 
 
-<<<<<<< HEAD
-public class ConsoleMenu implements IConsoleMenu {
-=======
 
-public class ConsoleMenu {
+public class ConsoleMenu implements IConsoleMenu {
+
 	
 	public ConsoleMenu() {}
 
@@ -33,7 +31,7 @@ public class ConsoleMenu {
 	    return escolha;
 	}
 	
->>>>>>> 8237b98c855959cbc7db377b00bc8b72ff17fd4f
+
 	    
 	public boolean cadastrarProduto () {
 	        System.out.println("\n--- Cadastro de Produto ---");
