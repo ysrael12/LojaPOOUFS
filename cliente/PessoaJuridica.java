@@ -1,6 +1,6 @@
 package cliente;
 
-public class PessoaJuridica extends Cliente{
+public class PessoaJuridica extends Cliente implements ICliente{
 	
 	private String cnpj; 
 	private String razaoSocial; 
@@ -37,4 +37,8 @@ public class PessoaJuridica extends Cliente{
         this.nomeFantasia = nomeFantasia;
     }
 	
+    @Override
+    public void exibirCliente() {
+        System.out.println("Cliente ID: " + this.id + " | Nome: " + this.nome + " | Endereço: " + this.endereco + " | Telefone: " + this.numeroDeTelefone + " Cliente PJ");
+    }
 }

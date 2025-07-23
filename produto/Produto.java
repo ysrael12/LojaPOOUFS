@@ -1,7 +1,9 @@
 package produto;
 import java.math.BigDecimal;
 
-public class Produto{
+/* Classe Abstrata de Produto */
+
+public abstract class Produto implements IProduto {
     protected String codigo;
     protected String nome;
     protected BigDecimal precoBase;
@@ -20,7 +22,6 @@ public class Produto{
 
     private void adicionarProduto() {
         Produto[] novaLista = new Produto[produtosCadastrados.length + 1];
-        // FIX: The last parameter should be produtosCadastrados.length, not novaLista.length
         System.arraycopy(produtosCadastrados, 0, novaLista, 0, produtosCadastrados.length); 
         novaLista[produtosCadastrados.length] = this;
         produtosCadastrados = novaLista;

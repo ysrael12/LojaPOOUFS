@@ -1,8 +1,9 @@
 package cliente;
-
 import java.util.UUID;
 
-public abstract class Cliente {
+/* Classe Abstrata de Cliente */
+
+public abstract class Cliente implements ICliente {
     protected UUID id; 
     protected String nome; 
     protected String endereco; 
@@ -10,11 +11,11 @@ public abstract class Cliente {
 
     private static Cliente[] clientesCadastrados = new Cliente[0];
 
-    public Cliente(String nome, String endereco, String numeroDeTelefone){
+    public Cliente(String nome, String endereco, String numeroDeTeletelefone){
         this.id = UUID.randomUUID();
         this.nome = nome; 
         this.endereco = endereco; 
-        this.numeroDeTelefone = numeroDeTelefone;
+        this.numeroDeTelefone = numeroDeTeletelefone;
         
         adicionarClienteInterno(this); 
     }
@@ -50,15 +51,11 @@ public abstract class Cliente {
     }
 
     public static Cliente getClientePorId(String idString) {
-        try {
-            UUID idBusca = UUID.fromString(idString); 
-            for (Cliente c : clientesCadastrados) {
-                if (c != null && c.getId().equals(idBusca)) {
-                    return c;
-                }
+        UUID idBusca = UUID.fromString(idString); 
+        for (Cliente c : clientesCadastrados) {
+            if (c != null && c.getId().equals(idBusca)) {
+                return c;
             }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Formato de ID inválido: " + idString);
         }
         System.out.println("Cliente com ID '" + idString + "' não encontrado.");
         return null;

@@ -8,11 +8,7 @@ import java.time.LocalDate;
 import produto.*;
 
 
-public class ConsoleMenu {
-	
-	  public ConsoleMenu() {
-	       
-	    }
+public class ConsoleMenu implements IConsoleMenu {
 	    
 	public boolean cadastrarProduto () {
         System.out.println("\n--- Cadastro de Produto ---");
@@ -26,40 +22,35 @@ public class ConsoleMenu {
         double precoBase = InputUtils.lerDouble("Coloque o preço base: R$"); 
         int estoque = InputUtils.lerInt("Coloque o estoque inicial: "); 
 
-        try {
-            switch (tipo) {
-                case 1: 
-                    double peso = InputUtils.lerDouble("Coloque o peso (kg): ");
-                    String dimensoes = InputUtils.lerString("Coloque as dimensões (ex: 10x20x5 cm): ");
-                    new ProdutoFisico(nome, precoBase, estoque, peso, dimensoes);
-                    break;
-                case 2:
-                    String urlDownload = InputUtils.lerString("Coloque a URL de download: ");
-                    long tamanhoArquivoMB = InputUtils.lerInt("Coloque o tamanho do arquivo (MB): ");
-                    new ProdutoDigital(nome, precoBase, estoque, urlDownload, tamanhoArquivoMB);
-                    break;
-                case 3:
-                    double pesoPerecivel = InputUtils.lerDouble("Coloque o peso (kg): ");
-                    String dimensoesPerecivel = InputUtils.lerString("Coloque as dimensões (ex: 10x20x5 cm): ");
-                    LocalDate dataValidade = InputUtils.lerData("Coloque a data de validade");
-                    String condicoesArmazenamento = InputUtils.lerString("Coloque as condições de armazenamento: ");
-                    new ProdutoPerecivel(nome, precoBase, estoque, pesoPerecivel, dimensoesPerecivel, dataValidade, condicoesArmazenamento);
-                    break;
-                default:
-                    System.out.println("Opção de tipo de produto inválida.");
-                    return false;
-            }
-            System.out.println("Produto cadastrado com sucesso!");
-            return true;
-        } catch (IllegalArgumentException e) {
-            System.out.println("Erro ao cadastrar produto: " + e.getMessage());
-            return false;
+        switch (tipo) {
+            case 1: 
+                double peso = InputUtils.lerDouble("Coloque o peso (kg): ");
+                String dimensoes = InputUtils.lerString("Coloque as dimensões (ex: 10x20x5 cm): ");
+                new ProdutoFisico(nome, precoBase, estoque, peso, dimensoes);
+                break;
+            case 2:
+                String urlDownload = InputUtils.lerString("Coloque a URL de download: ");
+                long tamanhoArquivoMB = InputUtils.lerInt("Coloque o tamanho do arquivo (MB): ");
+                new ProdutoDigital(nome, precoBase, estoque, urlDownload, tamanhoArquivoMB);
+                break;
+            case 3:
+                double pesoPerecivel = InputUtils.lerDouble("Coloque o peso (kg): ");
+                String dimensoesPerecivel = InputUtils.lerString("Coloque as dimensões (ex: 10x20x5 cm): ");
+                LocalDate dataValidade = InputUtils.lerData("Coloque a data de validade");
+                String condicoesArmazenamento = InputUtils.lerString("Coloque as condições de armazenamento: ");
+                new ProdutoPerecivel(nome, precoBase, estoque, pesoPerecivel, dimensoesPerecivel, dataValidade, condicoesArmazenamento);
+                break;
+            default:
+                System.out.println("Opção de tipo de produto inválida.");
+                return false;
         }
+        System.out.println("Produto cadastrado com sucesso!");
+        return true;
     }
 	
 	
 	
-	public boolean alterarProduto (){ 
+	public boolean alterarProduto() { 
         System.out.println("\n--- Alterar Produto ---");
         int codigoProduto = InputUtils.lerInt("Digite o código do produto que deseja alterar: "); 
         Produto produto = Produto.getCodigoProduto(codigoProduto); 
@@ -74,33 +65,28 @@ public class ConsoleMenu {
         System.out.println("1- Nome\n2- Preço Base\n3- Estoque");
         int escolha = InputUtils.lerInt("Escolha uma opção: "); 
 
-        try {
-            if (escolha == 1){
-                String nome = InputUtils.lerString("Coloque o novo nome: "); 
-                produto.setNome(nome);
-                System.out.println("Nome do produto alterado com sucesso.");
-                return true;
-            } else if(escolha == 2){
-                double preco = InputUtils.lerDouble("Coloque o novo preço base: R$"); 
-                produto.setPrecoBase(preco); 
-                System.out.println("Preço do produto alterado com sucesso.");
-                return true;
-            } else if(escolha == 3){
-                int estoque = InputUtils.lerInt("Coloque o novo estoque: "); // CHAMA InputUtils
-                produto.setEstoque(estoque);
-                System.out.println("Estoque do produto alterado com sucesso.");
-                return true;
-            } else {
-                System.out.println("Opção inválida.");
-                return false;
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Erro ao alterar produto: " + e.getMessage());
+        if (escolha == 1){
+            String nome = InputUtils.lerString("Coloque o novo nome: "); 
+            produto.setNome(nome);
+            System.out.println("Nome do produto alterado com sucesso.");
+            return true;
+        } else if(escolha == 2){
+            double preco = InputUtils.lerDouble("Coloque o novo preço base: R$"); 
+            produto.setPrecoBase(preco); 
+            System.out.println("Preço do produto alterado com sucesso.");
+            return true;
+        } else if(escolha == 3){
+            int estoque = InputUtils.lerInt("Coloque o novo estoque: ");
+            produto.setEstoque(estoque);
+            System.out.println("Estoque do produto alterado com sucesso.");
+            return true;
+        } else {
+            System.out.println("Opção inválida.");
             return false;
         }
     }
 	
-	public boolean cadastrarCliente(){
+	public boolean cadastrarCliente() {
         System.out.println("\n--- Cadastro de Cliente ---");
         System.out.println("Qual tipo de cliente deseja cadastrar?");
         System.out.println("1- Pessoa Física");
@@ -111,37 +97,32 @@ public class ConsoleMenu {
         String endereco = InputUtils.lerString("Coloque o endereco: "); 
         String numeroDeTelefone = InputUtils.lerString("Coloque o numero de telefone: "); 
         
-        try {
-            Cliente novoCliente;
-            switch (tipo) {
-                case 1: 
-                    String cpf = InputUtils.lerString("Coloque o CPF: "); 
-                    LocalDate dataNascimento = InputUtils.lerData("Coloque a data de nascimento");
-                    novoCliente = new PessoaFisica(nome, endereco, numeroDeTelefone, cpf, dataNascimento); 
-                    break;
-                case 2:
-                    String cnpj = InputUtils.lerString("Coloque o CNPJ: "); // CHAMA InputUtils
-                    String razaoSocial = InputUtils.lerString("Coloque a Razão Social: "); // CHAMA InputUtils
-                    String nomeFantasia = InputUtils.lerString("Coloque o Nome Fantasia (opcional): "); // CHAMA InputUtils
-                    novoCliente = new PessoaJuridica(nome, endereco, numeroDeTelefone, cnpj, razaoSocial, nomeFantasia); // Cliente também precisa de adicionar estático
-                    break;
-                default:
-                    System.out.println("Opção de tipo de cliente inválida.");
-                    return false;
-            }
-            System.out.println("Cliente cadastrado com sucesso!\nBem Vindo!"+ novoCliente.getNome());
-            return true;
-        } catch (IllegalArgumentException e) {
-            System.out.println("Erro ao cadastrar cliente: " + e.getMessage());
-            return false;
+        Cliente novoCliente;
+        switch (tipo) {
+            case 1: 
+                String cpf = InputUtils.lerString("Coloque o CPF: "); 
+                LocalDate dataNascimento = InputUtils.lerData("Coloque a data de nascimento");
+                novoCliente = new PessoaFisica(nome, endereco, numeroDeTelefone, cpf, dataNascimento); 
+                break;
+            case 2:
+                String cnpj = InputUtils.lerString("Coloque o CNPJ: ");
+                String razaoSocial = InputUtils.lerString("Coloque a Razão Social: ");
+                String nomeFantasia = InputUtils.lerString("Coloque o Nome Fantasia (opcional): ");
+                novoCliente = new PessoaJuridica(nome, endereco, numeroDeTelefone, cnpj, razaoSocial, nomeFantasia);
+                break;
+            default:
+                System.out.println("Opção de tipo de cliente inválida.");
+                return false;
         }
+        System.out.println("Cliente cadastrado com sucesso!\nBem Vindo!"+ novoCliente.getNome());
+        return true;
     }
 	
-	public boolean alterarCliente (){
+	public boolean alterarCliente() {
         System.out.println("\n--- Alterar Cliente ---");
-        Cliente.listarClientesCadastrados(); // Mostra os clientes para que o usuário possa escolher
+        Cliente.listarClientesCadastrados(); 
         String idCliente = InputUtils.lerString("Digite o ID do cliente que deseja alterar: ");
-        Cliente cliente = Cliente.getClientePorId(idCliente); // Usa o método estático da classe Cliente
+        Cliente cliente = Cliente.getClientePorId(idCliente); 
 
         if (cliente == null) {
             System.out.println("Cliente com o ID '" + idCliente + "' não encontrado.");
@@ -154,65 +135,73 @@ public class ConsoleMenu {
         System.out.println("4- Alterar Tipo de Cliente (Pessoa Física <-> Jurídica)"); 
         int escolha = InputUtils.lerInt("Escolha uma opção: ");
         
-        try {
-            if (escolha == 1){
-                String nome = InputUtils.lerString("Coloque o novo nome: ");
-                cliente.setNome(nome);
-                System.out.println("Nome do cliente alterado com sucesso.");
-                return true;
-            } else if (escolha == 2){
-                String endereco = InputUtils.lerString("Coloque o novo endereco: ");
-                cliente.setEndereco(endereco);
-                System.out.println("Endereço do cliente alterado com sucesso.");
-                return true;
-            } else if(escolha == 3){
-                String numeroDeTelefone = InputUtils.lerString("Coloque o novo numero de telefone: ");
-                cliente.setNumeroDeTelefone(numeroDeTelefone);
-                System.out.println("Numero de telefone do cliente alterado com sucesso.");
-                return true;
-            } else if (escolha == 4) { // Lógica para alteração de tipo
-                System.out.println("Alterar tipo de cliente para:");
-                System.out.println("1- Pessoa Física");
-                System.out.println("2- Pessoa Jurídica");
-                int novoTipoEscolha = InputUtils.lerInt("Escolha o novo tipo: ");
+        // Removed try-catch block
+        if (escolha == 1){
+            String nome = InputUtils.lerString("Coloque o novo nome: ");
+            cliente.setNome(nome);
+            System.out.println("Nome do cliente alterado com sucesso.");
+            return true;
+        } else if (escolha == 2){
+            String endereco = InputUtils.lerString("Coloque o novo endereco: ");
+            cliente.setEndereco(endereco);
+            System.out.println("Endereço do cliente alterado com sucesso.");
+            return true;
+        } else if(escolha == 3){
+            String numeroDeTelefone = InputUtils.lerString("Coloque o novo numero de telefone: ");
+            cliente.setNumeroDeTelefone(numeroDeTelefone);
+            System.out.println("Numero de telefone do cliente alterado com sucesso.");
+            return true;
+        } else if (escolha == 4) { 
+            
+        	/* 
+        	Implementação do DownCast e UpCast
+        	*/
+        	
+        	System.out.println("Alterar tipo de cliente para:");
+            System.out.println("1- Pessoa Física");
+            System.out.println("2- Pessoa Jurídica");
+            int novoTipoEscolha = InputUtils.lerInt("Escolha o novo tipo: ");
 
-                Cliente novoCliente = null;
-                if (cliente instanceof PessoaFisica && novoTipoEscolha == 2) {
-                    System.out.println("Convertendo Pessoa Física para Jurídica...");
-                    String cnpj = InputUtils.lerString("Coloque o CNPJ: ");
-                    String razaoSocial = InputUtils.lerString("Coloque a Razão Social: ");
-                    String nomeFantasia = InputUtils.lerString("Coloque o Nome Fantasia (opcional): ");
-                    // Cria uma nova instância. O construtor adicionará à lista estática.
-                    novoCliente = new PessoaJuridica(cliente.getNome(), cliente.getEndereco(), cliente.getNumeroDeTelefone(), cnpj, razaoSocial, nomeFantasia);
-                    
-                } else if (cliente instanceof PessoaJuridica && novoTipoEscolha == 1) {
-                    System.out.println("Convertendo Pessoa Jurídica para Física...");
-                    String cpf = InputUtils.lerString("Coloque o CPF: ");
-                    LocalDate dataNascimento = InputUtils.lerData("Coloque a data de nascimento");
-                    // Cria uma nova instância. O construtor adicionará à lista estática.
-                    novoCliente = new PessoaFisica(cliente.getNome(), cliente.getEndereco(), cliente.getNumeroDeTelefone(), cpf, dataNascimento);
-                } else {
-                    System.out.println("Alteração de tipo inválida ou sem mudança.");
-                    return false;
-                }
+            Cliente novoCliente = null;
+            if (cliente instanceof PessoaFisica && novoTipoEscolha == 2) {
+                System.out.println("Convertendo Pessoa Física para Jurídica...");
+                // Downcast para PessoaFisica para acessar propriedades específicas.
+                PessoaFisica pf = (PessoaFisica) cliente; 
+                
+                String cnpj = InputUtils.lerString("Coloque o CNPJ: ");
+                String razaoSocial = InputUtils.lerString("Coloque a Razão Social: ");
+                String nomeFantasia = InputUtils.lerString("Coloque o Nome Fantasia (opcional): ");
+                
+                // Upcast CLIENTE -> PJ
+                novoCliente = new PessoaJuridica(pf.getNome(), pf.getEndereco(), pf.getNumeroDeTelefone(), cnpj, razaoSocial, nomeFantasia);
+                
+            } else if (cliente instanceof PessoaJuridica && novoTipoEscolha == 1) {
+                System.out.println("Convertendo Pessoa Jurídica para Física...");
+                // Downcast para PessoaJuridica para acessar propriedades específicas.
+                PessoaJuridica pj = (PessoaJuridica) cliente; 
 
-                if (novoCliente != null) {
-                    // Remove o cliente antigo da lista estática
-                    if (Cliente.removerCliente(cliente)) {
-                       System.out.println("Tipo de cliente alterado com sucesso!");
-                       System.out.println(novoCliente.toString()); // Exibe o novo cliente
-                       return true; 
-                    }
-                    return false; 
-                }
-                return false;
+                String cpf = InputUtils.lerString("Coloque o CPF: ");
+                LocalDate dataNascimento = InputUtils.lerData("Coloque a data de nascimento");
+                
+                // Upcast CLIENTE -> PF
+                novoCliente = new PessoaFisica(pj.getNome(), pj.getEndereco(), pj.getNumeroDeTelefone(), cpf, dataNascimento);
             } else {
-                System.out.println("Opção inválida.");
-                return false;	
+                System.out.println("Alteração de tipo inválida ou sem mudança.");
+                return false;
             }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Erro ao alterar cliente: " + e.getMessage());
+
+            if (novoCliente != null) {
+                if (Cliente.removerCliente(cliente)) {
+                   System.out.println("Tipo de cliente alterado com sucesso!");
+                   System.out.println(novoCliente.toString()); 
+                   return true; 
+                }
+                return false; 
+            }
             return false;
+        } else {
+            System.out.println("Opção inválida.");
+            return false;	
         }
 	}
 	
@@ -258,12 +247,8 @@ public class ConsoleMenu {
 	            }
 	            
 	            int codigoProduto = -1;
-	            try {
-	                codigoProduto = Integer.parseInt(codigoProdutoStr);
-	            } catch (NumberFormatException e) {
-	                System.out.println("Código do produto inválido. Digite um número.");
-	                continue;
-	            }
+	            codigoProduto = Integer.parseInt(codigoProdutoStr);
+	            
 
 	            Produto produtoSelecionado = Produto.getCodigoProduto(codigoProduto); 
 
@@ -274,22 +259,15 @@ public class ConsoleMenu {
 
 	            int quantidade = InputUtils.lerInt("Digite a quantidade de " + produtoSelecionado.getNome() + ": ");
 
-	            try {
-	                novaNota.adicionarProduto(produtoSelecionado, quantidade); 
-	                produtoSelecionado.setEstoque( produtoSelecionado.getEstoque() - quantidade);
-	                System.out.println("Item adicionado com sucesso.");
-	            } catch (IllegalArgumentException e) {
-	                System.out.println("Erro ao adicionar item: " + e.getMessage());
-	            }
+	            novaNota.adicionarProduto(produtoSelecionado, quantidade); 
+	            produtoSelecionado.setEstoque( produtoSelecionado.getEstoque() - quantidade);
+	            System.out.println("Item adicionado com sucesso.");
 
 	            String continuar = InputUtils.lerString("Adicionar outro item? (s/n): ");
 	            if (!continuar.equalsIgnoreCase("s")) {
 	                adicionarMaisItens = false;
 	            }
 	        novaNota.emitirNota(); 
-	    }
-	        
-	        
-		}
+	    }    
+	}
 }
-

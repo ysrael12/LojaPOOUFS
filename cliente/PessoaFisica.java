@@ -2,7 +2,7 @@ package cliente;
 
 import java.time.LocalDate;
 
-public class PessoaFisica extends Cliente{
+public class PessoaFisica extends Cliente implements ICliente{
 	private String cpf; 
 	private LocalDate dataDeNascimento;
 	
@@ -29,5 +29,8 @@ public class PessoaFisica extends Cliente{
         this.dataDeNascimento = dataDeNascimento;
     }
 	
-	
+    @Override
+    public void exibirCliente() {
+        System.out.println("Cliente ID: " + this.id + " | Nome: " + this.nome + " | Endereço: " + this.endereco + " | Telefone: " + this.numeroDeTelefone+ " Cliente PF");
+    }
 }

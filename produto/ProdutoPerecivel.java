@@ -1,21 +1,18 @@
 package produto;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter; // For formatting date
+import java.time.format.DateTimeFormatter; 
 
-public class ProdutoPerecivel extends ProdutoFisico {
+public class ProdutoPerecivel extends ProdutoFisico implements IProduto {
     protected LocalDate dataValidade;
     protected String condicoesArmazenamento;
 
-    public ProdutoPerecivel(String nome, double precoBase, int estoque, 
-                            double pesoKg, String dimensoes, 
-                            LocalDate dataValidade, String condicoesArmazenamento) {
+    public ProdutoPerecivel(String nome, double precoBase, int estoque, double pesoKg, String dimensoes, LocalDate dataValidade, String condicoesArmazenamento) {
         super(nome, precoBase, estoque, pesoKg, dimensoes);
         this.dataValidade = dataValidade;
         this.condicoesArmazenamento = condicoesArmazenamento;
     }
 
-    // --- Getters e Setters específicos ---
     public LocalDate getDataValidade() {
         return dataValidade;
     }
@@ -34,7 +31,6 @@ public class ProdutoPerecivel extends ProdutoFisico {
     
 
     public boolean estaValido() {
-        // If dataValidade is null for some reason, it's not valid
         if (this.dataValidade == null) {
             return false;
         }
@@ -43,7 +39,7 @@ public class ProdutoPerecivel extends ProdutoFisico {
 
     @Override
     public void exibirProduto() {
-        String dataFormatada = "N/A"; // Default value if null
+        String dataFormatada = "N/A";
         if (dataValidade != null) {
             dataFormatada = dataValidade.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         }

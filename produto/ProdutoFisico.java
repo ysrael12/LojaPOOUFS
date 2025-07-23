@@ -1,6 +1,6 @@
 package produto;
 
-public class ProdutoFisico extends Produto{
+public class ProdutoFisico extends Produto implements IProduto{
 	protected double pesoKg; 
 	protected String dimensoes; 
 	

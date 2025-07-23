@@ -1,6 +1,6 @@
 package produto;
 
-public class ProdutoDigital extends Produto {
+public class ProdutoDigital extends Produto implements IProduto {
 	protected String urlDownload; 
 	protected long tamanhoDoArquivoEmMb; 
 	
